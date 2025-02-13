@@ -1,14 +1,15 @@
-package com.nunes.jhonatha.aluvery
+package com.nunes.jhonatha.aluvery.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import com.nunes.jhonatha.aluvery.sampledata.sampleProducts
+import androidx.compose.ui.Modifier
 import com.nunes.jhonatha.aluvery.sampledata.sampleSections
-import com.nunes.jhonatha.aluvery.ui.screens.AllProductsScreen
 import com.nunes.jhonatha.aluvery.ui.screens.HomeScreen
 import com.nunes.jhonatha.aluvery.ui.theme.AluveryTheme
 
@@ -25,9 +26,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     AluveryTheme {
-        Surface {
-            HomeScreen(sampleSections)
+        Scaffold { innerPadding ->
+            Surface(Modifier.padding(innerPadding)) {
+                HomeScreen(sampleSections)
 //            AllProductsScreen(sampleProducts)
+            }
         }
+
     }
 }

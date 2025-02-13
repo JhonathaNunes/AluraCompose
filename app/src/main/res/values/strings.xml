@@ -2,4 +2,11 @@
     <string name="app_name">Aluvery</string>
     <string name="product">Produto</string>
     <string name="what_are_you_looking_for">O que você procura?</string>
+    <string name="title_activity_insert_product_form">InsertProductFormActivity</string>
+    <string name="add_product">Criando o produto</string>
+    <string name="save">Salvar</string>
+    <string name="image_url">Url da imagem</string>
+    <string name="name">Nome</string>
+    <string name="price">Preço</string>
+    <string name="description">Descrição</string>
 </resources>
