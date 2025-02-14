@@ -1,5 +1,6 @@
 package com.nunes.jhonatha.aluvery.ui.screens
 
+import android.icu.text.DecimalFormat
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -83,13 +85,20 @@ fun InsertProductScreen() {
         FormTextField(
             value = name,
             label = stringResource(R.string.name),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                capitalization = KeyboardCapitalization.Words
+            )
         ) {
             name = it
         }
 
         var price by remember {
             mutableStateOf("")
+        }
+
+        val formatter = remember {
+            DecimalFormat("#.##")
         }
 
         FormTextField(
@@ -100,7 +109,11 @@ fun InsertProductScreen() {
                 imeAction = ImeAction.Next
             )
         ) {
-            price = it
+            try {
+                price = formatter.format(BigDecimal(it))
+            } catch (e: IllegalArgumentException) {
+                if (it.isEmpty()) price = it
+            }
         }
 
         var description by remember {
@@ -110,7 +123,10 @@ fun InsertProductScreen() {
         FormTextField(
             value = description,
             label = stringResource(R.string.description),
-            Modifier.heightIn(min = 100.dp)
+            Modifier.heightIn(min = 100.dp),
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences
+            )
         ) {
             description = it
         }
