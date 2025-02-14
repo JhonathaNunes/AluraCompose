@@ -1,6 +1,7 @@
 package com.nunes.jhonatha.aluvery.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ fun FormTextField(
     value: String,
     label: String,
     modifier: Modifier = Modifier,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(),
     onValueChange: (String) -> Unit,
 ) {
     TextField(
@@ -21,7 +23,8 @@ fun FormTextField(
         modifier.fillMaxWidth(),
         label = {
             Text(label)
-        }
+        },
+        keyboardOptions = keyboardOptions
     )
 }
 
