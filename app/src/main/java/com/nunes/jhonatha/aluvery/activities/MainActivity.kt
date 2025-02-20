@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -14,20 +15,38 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.nunes.jhonatha.aluvery.dao.ProductDAO
+import com.nunes.jhonatha.aluvery.sampledata.sampleCandies
+import com.nunes.jhonatha.aluvery.sampledata.sampleDrinks
 import com.nunes.jhonatha.aluvery.sampledata.sampleSections
 import com.nunes.jhonatha.aluvery.ui.screens.HomeScreen
 import com.nunes.jhonatha.aluvery.ui.theme.AluveryTheme
 
 class MainActivity : ComponentActivity() {
+
+    private val productDAO = ProductDAO()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            App {
-                startActivity(Intent(
-                    this,
-                    InsertProductFormActivity::class.java
-                ))
+            App(
+                onFloatingButtonClick = {
+                    startActivity(Intent(
+                        this,
+                        InsertProductFormActivity::class.java
+                    ))
+                }
+            ) {
+                val sections = mapOf(
+                    "Todos produtos" to productDAO.products(),
+                    "Promoções" to sampleCandies + sampleDrinks,
+                    "Bebidas" to sampleDrinks,
+                    "Doces" to sampleCandies
+                )
+
+                HomeScreen(sections)
             }
         }
     }
@@ -35,7 +54,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App(
-    onFloatingButtonClick: () -> Unit
+    onFloatingButtonClick: () -> Unit = {},
+    content: @Composable () -> Unit = {}
 ) {
     AluveryTheme {
         Scaffold(
@@ -48,10 +68,19 @@ fun App(
             }
         ) { innerPadding ->
             Surface(Modifier.padding(innerPadding)) {
-                HomeScreen(sampleSections)
-//            AllProductsScreen(sampleProducts)
+                content()
             }
         }
 
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun AppPreview() {
+    AluveryTheme {
+        App {
+            HomeScreen(sampleSections)
+        }
     }
 }

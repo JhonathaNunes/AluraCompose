@@ -43,7 +43,9 @@ import com.nunes.jhonatha.aluvery.ui.theme.AluveryTheme
 import java.math.BigDecimal
 
 @Composable
-fun InsertProductScreen() {
+fun InsertProductScreen(
+    onSave: (Product) -> Unit
+) {
     Column(
         Modifier
             .fillMaxSize()
@@ -147,6 +149,8 @@ fun InsertProductScreen() {
                 )
 
                 Log.i("InsertProductScreen", "InsertProductScreen: $product")
+
+                onSave(product)
             },
             Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(4),
@@ -166,7 +170,7 @@ private fun InsertProductScreenPreview() {
     AluveryTheme {
         Scaffold { innerPadding ->
             Surface(Modifier.padding(innerPadding)) {
-                InsertProductScreen()
+                InsertProductScreen(onSave = {})
             }
         }
     }

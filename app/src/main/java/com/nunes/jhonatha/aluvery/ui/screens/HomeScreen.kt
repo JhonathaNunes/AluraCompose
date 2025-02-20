@@ -29,9 +29,7 @@ fun HomeScreen(
     sections: Map<String, List<Product>>,
     searchText: String = ""
 ) {
-    Column(
-        Modifier.padding(top = 32.dp)
-    ) {
+    Column {
         var text: String by remember { mutableStateOf(searchText) }
         val filteredProducts = remember(text) {
             if (text.isNotBlank()) {
