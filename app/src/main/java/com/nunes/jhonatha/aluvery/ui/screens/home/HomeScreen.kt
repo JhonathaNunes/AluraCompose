@@ -9,11 +9,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nunes.jhonatha.aluvery.models.Product
+import com.nunes.jhonatha.aluvery.sampledata.sampleCandies
+import com.nunes.jhonatha.aluvery.sampledata.sampleDrinks
 import com.nunes.jhonatha.aluvery.sampledata.sampleSections
 import com.nunes.jhonatha.aluvery.ui.components.CardProductItem
 import com.nunes.jhonatha.aluvery.ui.components.ProductsSection
@@ -21,17 +26,60 @@ import com.nunes.jhonatha.aluvery.ui.components.SearchTextField
 import com.nunes.jhonatha.aluvery.ui.theme.AluveryTheme
 
 @Composable
+fun HomeScreen(products: List<Product>) {
+    var text by remember {
+        mutableStateOf("")
+    }
+
+    val sections = mapOf(
+        "Todos produtos" to products,
+        "Promoções" to sampleCandies + sampleDrinks,
+        "Bebidas" to sampleDrinks,
+        "Doces" to sampleCandies
+    )
+
+    val filteredProducts = remember(text, products) {
+        if (text.isNotBlank()) {
+            products.filter {
+                it.name.contains(text, ignoreCase = true) || it.description?.contains(
+                    text,
+                    ignoreCase = true
+                ) == true
+            }
+        } else {
+            products
+        }
+    }
+
+    val onTextChange = { searchText: String ->
+        text = searchText
+    }
+
+    val homeScreenUiState = remember(products, text) {
+        HomeScreenUiState(
+            sections = sections,
+            searchText = text,
+            filteredProducts = filteredProducts,
+            onSearchChange = onTextChange
+        )
+    }
+
+    HomeScreen(
+        state = homeScreenUiState
+    )
+}
+
+@Composable
 fun HomeScreen(
-    sections: Map<String, List<Product>>,
     state: HomeScreenUiState = HomeScreenUiState()
 ) {
     Column {
-        val text = state.text
-        val filteredProducts = remember (text) { state.filteredProducts }
+        val text = state.searchText
+        val sections = state.sections
+        val filteredProducts = state.filteredProducts
 
         SearchTextField(
-            searchText = text,
-            onSearchChange = state.onSearchChange
+            searchText = text, onSearchChange = state.onSearchChange
         )
 
         LazyColumn(
@@ -46,8 +94,7 @@ fun HomeScreen(
 
                     item {
                         ProductsSection(
-                            title,
-                            products
+                            title, products
                         )
                     }
                 }
@@ -63,7 +110,7 @@ fun HomeScreen(
 @Preview(showSystemUi = true)
 @Composable
 private fun HomeScreenPreview() {
-    HomeScreen(sampleSections)
+    HomeScreen(state = HomeScreenUiState(sections = sampleSections))
 }
 
 @Preview(showSystemUi = true)
@@ -71,7 +118,11 @@ private fun HomeScreenPreview() {
 private fun HomeScreenWithSearchPreview() {
     AluveryTheme {
         Surface {
-            HomeScreen(sampleSections, HomeScreenUiState("A"))
+            HomeScreen(
+                state = HomeScreenUiState(
+                    searchText = "a", sections = sampleSections
+                )
+            )
         }
     }
 }
