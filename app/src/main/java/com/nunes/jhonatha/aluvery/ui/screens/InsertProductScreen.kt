@@ -39,11 +39,61 @@ import coil3.compose.AsyncImage
 import com.nunes.jhonatha.aluvery.R
 import com.nunes.jhonatha.aluvery.models.Product
 import com.nunes.jhonatha.aluvery.ui.components.FormTextField
+import com.nunes.jhonatha.aluvery.ui.states.InsertProductScreenUiState
 import com.nunes.jhonatha.aluvery.ui.theme.AluveryTheme
 import java.math.BigDecimal
 
 @Composable
+fun InsertProductScreen(onSave: (Product) -> Unit) {
+    var url by remember {
+        mutableStateOf("")
+    }
+
+    var name by remember {
+        mutableStateOf("")
+    }
+
+    var price by remember {
+        mutableStateOf("")
+    }
+
+    var description by remember {
+        mutableStateOf("")
+    }
+
+    val formatter = DecimalFormat("#.##")
+
+    InsertProductScreen(
+        state = InsertProductScreenUiState(
+            url = url,
+            onUrlChange = { newUrl: String ->
+                Log.i("Insert", "InsertProductScreen: $newUrl")
+                url = newUrl
+            },
+            name = name,
+            onNameChange = { newName: String ->
+                name = newName
+            },
+            price = price,
+            onPriceChange = { newPrice: String ->
+                try {
+                    price = formatter.format(BigDecimal(newPrice))
+                } catch (e: IllegalArgumentException) {
+                    if (newPrice.isEmpty()) price = newPrice
+                }
+            },
+            description = description,
+            onDescriptionChange = { newDescription: String ->
+                description = newDescription
+            }
+        ),
+        onSave = onSave
+    )
+}
+
+@Composable
 fun InsertProductScreen(
+    state: InsertProductScreenUiState = InsertProductScreenUiState(),
     onSave: (Product) -> Unit
 ) {
     Column(
@@ -54,13 +104,14 @@ fun InsertProductScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        val url = state.url
+        val name = state.name
+        val price = state.price
+        val description = state.description
+
         Text(stringResource(R.string.add_product), fontSize = 28.sp)
 
-        var url by remember {
-            mutableStateOf("")
-        }
-
-        AnimatedVisibility(url.isNotBlank()) {
+        AnimatedVisibility(state.isUrlFilled()) {
             AsyncImage(
                 model = url,
                 contentDescription = "Image preview",
@@ -75,14 +126,9 @@ fun InsertProductScreen(
         FormTextField(
             value = url,
             label = stringResource(R.string.image_url),
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next)
-        ) {
-            url = it
-        }
-
-        var name by remember {
-            mutableStateOf("")
-        }
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            onValueChange = state.onUrlChange
+        )
 
         FormTextField(
             value = name,
@@ -90,37 +136,19 @@ fun InsertProductScreen(
             keyboardOptions = KeyboardOptions(
                 imeAction = ImeAction.Next,
                 capitalization = KeyboardCapitalization.Words
-            )
-        ) {
-            name = it
-        }
-
-        var price by remember {
-            mutableStateOf("")
-        }
-
-        val formatter = remember {
-            DecimalFormat("#.##")
-        }
+            ),
+            onValueChange = state.onNameChange
+        )
 
         FormTextField(
             value = price,
             label = stringResource(R.string.price),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
-                imeAction = ImeAction.Next
-            )
-        ) {
-            try {
-                price = formatter.format(BigDecimal(it))
-            } catch (e: IllegalArgumentException) {
-                if (it.isEmpty()) price = it
-            }
-        }
-
-        var description by remember {
-            mutableStateOf("")
-        }
+                imeAction = ImeAction.Next,
+            ),
+            onValueChange = state.onPriceChange
+        )
 
         FormTextField(
             value = description,
@@ -128,10 +156,9 @@ fun InsertProductScreen(
             Modifier.heightIn(min = 100.dp),
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences
-            )
-        ) {
-            description = it
-        }
+            ),
+            onValueChange = state.onDescriptionChange
+        )
 
         Button(
             onClick = {
