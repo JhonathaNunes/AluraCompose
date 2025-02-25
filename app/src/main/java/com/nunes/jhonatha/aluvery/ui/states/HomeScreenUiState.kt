@@ -1,4 +1,4 @@
-package com.nunes.jhonatha.aluvery.ui.screens.home
+package com.nunes.jhonatha.aluvery.ui.states
 
 import com.nunes.jhonatha.aluvery.models.Product
 

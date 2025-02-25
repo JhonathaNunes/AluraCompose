@@ -17,8 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.nunes.jhonatha.aluvery.dao.ProductDAO
 import com.nunes.jhonatha.aluvery.sampledata.sampleSections
-import com.nunes.jhonatha.aluvery.ui.screens.home.HomeScreen
-import com.nunes.jhonatha.aluvery.ui.screens.home.HomeScreenUiState
+import com.nunes.jhonatha.aluvery.ui.screens.HomeScreen
+import com.nunes.jhonatha.aluvery.ui.states.HomeScreenUiState
 import com.nunes.jhonatha.aluvery.ui.theme.AluveryTheme
 
 class MainActivity : ComponentActivity() {

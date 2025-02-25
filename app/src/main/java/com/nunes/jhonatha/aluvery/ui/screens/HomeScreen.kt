@@ -1,4 +1,4 @@
-package com.nunes.jhonatha.aluvery.ui.screens.home
+package com.nunes.jhonatha.aluvery.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +23,7 @@ import com.nunes.jhonatha.aluvery.sampledata.sampleSections
 import com.nunes.jhonatha.aluvery.ui.components.CardProductItem
 import com.nunes.jhonatha.aluvery.ui.components.ProductsSection
 import com.nunes.jhonatha.aluvery.ui.components.SearchTextField
+import com.nunes.jhonatha.aluvery.ui.states.HomeScreenUiState
 import com.nunes.jhonatha.aluvery.ui.theme.AluveryTheme
 
 @Composable
