@@ -1,4 +1,4 @@
-package com.nunes.jhonatha.aluvery.activities.ui.theme
+package com.nunes.jhonatha.aluvery.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

@@ -1,4 +1,4 @@
-package com.nunes.jhonatha.aluvery.activities.ui.theme
+package com.nunes.jhonatha.aluvery.theme
 
 import androidx.compose.ui.graphics.Color
 

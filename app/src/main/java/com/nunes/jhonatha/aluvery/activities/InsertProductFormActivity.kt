@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.nunes.jhonatha.aluvery.activities.ui.theme.AluveryTheme
+import com.nunes.jhonatha.aluvery.theme.AluveryTheme
 import com.nunes.jhonatha.aluvery.dao.ProductDAO
 import com.nunes.jhonatha.aluvery.ui.screens.InsertProductScreen
 
