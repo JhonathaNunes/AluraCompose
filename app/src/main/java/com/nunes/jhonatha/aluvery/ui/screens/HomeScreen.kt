@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.nunes.jhonatha.aluvery.models.Product
 import com.nunes.jhonatha.aluvery.sampledata.sampleCandies
 import com.nunes.jhonatha.aluvery.sampledata.sampleDrinks
+import com.nunes.jhonatha.aluvery.sampledata.sampleProducts
 import com.nunes.jhonatha.aluvery.sampledata.sampleSections
 import com.nunes.jhonatha.aluvery.ui.components.CardProductItem
 import com.nunes.jhonatha.aluvery.ui.components.ProductsSection
@@ -41,14 +42,14 @@ fun HomeScreen(products: List<Product>) {
 
     val filteredProducts = remember(text, products) {
         if (text.isNotBlank()) {
-            products.filter {
+            (products + sampleProducts).filter {
                 it.name.contains(text, ignoreCase = true) || it.description?.contains(
                     text,
                     ignoreCase = true
                 ) == true
             }
         } else {
-            products
+            products + sampleProducts
         }
     }
 

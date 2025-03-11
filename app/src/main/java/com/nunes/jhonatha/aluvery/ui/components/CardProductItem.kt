@@ -30,7 +30,6 @@ import coil3.compose.AsyncImage
 import com.nunes.jhonatha.aluvery.R
 import com.nunes.jhonatha.aluvery.extensions.toBrazilianCurrencyFormat
 import com.nunes.jhonatha.aluvery.models.Product
-import com.nunes.jhonatha.aluvery.sampledata.sampleProducts
 import com.nunes.jhonatha.aluvery.ui.theme.AluveryTheme
 import java.math.BigDecimal
 
@@ -38,9 +37,10 @@ import java.math.BigDecimal
 fun CardProductItem(
     product: Product,
     modifier: Modifier = Modifier,
-    elevation: Dp = 4.dp
+    elevation: Dp = 4.dp,
+    isExpanded: Boolean = false
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(isExpanded) }
 
     Card(
         modifier
@@ -115,6 +115,23 @@ private fun CardProductItemWithDescriptionPreview() {
                     BigDecimal(14.99),
                     description = LoremIpsum(50).values.first()
                 )
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CardProductItemExpandedPreview() {
+    AluveryTheme {
+        Surface {
+            CardProductItem(
+                Product(
+                    "Produto",
+                    BigDecimal(14.99),
+                    description = LoremIpsum(50).values.first()
+                ),
+                isExpanded = true
             )
         }
     }
